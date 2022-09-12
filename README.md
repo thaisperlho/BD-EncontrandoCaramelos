@@ -1,6 +1,6 @@
-# Projeto de Banco de Dados
+# Projeto de Banco de Dados Relacional
 
-## EncontrandoCaramelos 
+## Encontrando Caramelos 
 
 - Análise de requisitos
 - Modelo conceitual
