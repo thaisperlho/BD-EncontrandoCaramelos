@@ -5,7 +5,6 @@ CREATE TABLE usuario
  senha varchar(50) NOT NULL,
  CONSTRAINT PK_usuario PRIMARY KEY ( "id" )
 );
-
 CREATE TABLE responsavel_ong
 (
  "id"   serial NOT NULL,
@@ -27,11 +26,11 @@ CREATE TABLE ongs
  nome              varchar(50) NOT NULL,
  fk_id_tipo_ajuda  serial NOT NULL,
  fk_id_usuario     serial NOT NULL,
- fk_id_responsavel serial NOT NULL,
  CNPJ              int NOT NULL,
  telefone          int NULL,
  site              varchar(50) NULL,
  entrega           boolean NULL,
+ fk_id_responsavel serial NOT NULL,
  CONSTRAINT PK_ongs PRIMARY KEY ( "id" ),
  CONSTRAINT FK_1 FOREIGN KEY ( fk_id_usuario ) REFERENCES usuario ( "id" ),
  CONSTRAINT FK_2 FOREIGN KEY ( fk_id_responsavel ) REFERENCES responsavel_ong ( "id" ),
@@ -89,50 +88,52 @@ CREATE INDEX FK_5 ON adotantes
  fk_id_usuario
 );
 
-CREATE TABLE redes_sociais
+CREATE TABLE redes_sociais_adotante
+(
+ "id"             serial NOT NULL,
+ link_perfil    varchar(50) NULL,
+ fk_id_adotante int NOT NULL,
+ nome           varchar(50) NULL,
+ CONSTRAINT PK_redes_sociais PRIMARY KEY ( "id" ),
+ CONSTRAINT FK_6 FOREIGN KEY ( fk_id_adotante ) REFERENCES adotantes ( "id" )
+);
+
+CREATE INDEX FK_6 ON redes_sociais_adotante
+(
+ fk_id_adotante
+);
+
+CREATE TABLE redes_sociais_ong
 (
  "id"          serial NOT NULL,
  link_perfil varchar(50) NULL,
+ fk_id_ong   int NOT NULL,
  nome        varchar(50) NULL,
- CONSTRAINT PK_redes_sociais PRIMARY KEY ( "id" )
-);
-
-CREATE TABLE rede_social_ong
-(
- "id"                serial NOT NULL,
- fk_id_rede_social int NOT NULL,
- fk_id_ong         int NOT NULL,
- CONSTRAINT PK_rede_social_ong PRIMARY KEY ( "id" ),
- CONSTRAINT FK_6 FOREIGN KEY ( fk_id_rede_social ) REFERENCES redes_sociais ( "id" ),
+ CONSTRAINT PK_redes_sociais_ong PRIMARY KEY ( "id" ),
  CONSTRAINT FK_7 FOREIGN KEY ( fk_id_ong ) REFERENCES ongs ( "id" )
 );
 
-CREATE INDEX FK_6 ON rede_social_ong
-(
- fk_id_rede_social
-);
-
-CREATE INDEX FK_7 ON rede_social_ong
+CREATE INDEX FK_7 ON redes_sociais_ong
 (
  fk_id_ong
 );
 
-CREATE TABLE rede_social_adodante
+CREATE TABLE Endereco_adotantes
 (
- "id"                serial NOT NULL,
- fk_id_rede_social int NOT NULL,
- fk_id_adotante    int NOT NULL,
- CONSTRAINT PK_rede_social_adodante PRIMARY KEY ( "id" ),
- CONSTRAINT FK_8 FOREIGN KEY ( fk_id_rede_social ) REFERENCES redes_sociais ( "id" ),
- CONSTRAINT FK_9 FOREIGN KEY ( fk_id_adotante ) REFERENCES adotantes ( "id" )
+ "id"             serial NOT NULL,
+ CEP            varchar(50) NOT NULL,
+ fk_id_adotante int NOT NULL,
+ bairro         varchar(50) NULL,
+ logradouro     varchar(50) NULL,
+ cidade         varchar(50) NULL,
+ estado         varchar(50) NULL,
+ complemento    varchar(50) NULL,
+ numero         int NULL,
+ CONSTRAINT PK_Endereco_adotante PRIMARY KEY ( "id" ),
+ CONSTRAINT FK_14 FOREIGN KEY ( fk_id_adotante ) REFERENCES adotantes ( "id" )
 );
 
-CREATE INDEX FK_8 ON rede_social_adodante
-(
- fk_id_rede_social
-);
-
-CREATE INDEX FK_9 ON rede_social_adodante
+CREATE INDEX FK_14 ON Endereco_adotantes
 (
  fk_id_adotante
 );
